@@ -45,7 +45,7 @@ export default function Login() {
                         </div>
                         <div className="space-y-3">
                             <p className="font-bold">Password</p>
-                            <input type="text" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
+                            <input type="password" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
                         </div>
 
                         <div className="flex justify-between items-center">
@@ -65,7 +65,7 @@ export default function Login() {
                         <div className="flex flex-col justify-center items-center space-y-3">
                             <p className="text-xl font-bold ">Don't have an account?</p>
                             <button className="mt-5 border border-gray-500 rounded-full p-3 px-36 font-bold flex items-center justify-center tracking-wider space-x-2 text-gray-600
-                             cursor-pointer">SIGN UP FOR SPOTIFY</button>
+                             cursor-pointer" onClick={() => router.push('/signup')}>SIGN UP FOR SPOTIFY</button>
                         </div>
                     </div>
 

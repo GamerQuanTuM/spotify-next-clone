@@ -1,5 +1,4 @@
 import Footer from "../../components/Footer"
-import Login from "../../components/Login"
 import Sidebar from "../../components/Sidebar"
 import '../../styles/globals.css'
 export const metadata = {
@@ -11,11 +10,8 @@ type Props = {
   children: React.ReactNode
 }
 
-export default function RootLayout({ children }: Props) {
-  const credentials = false
+export default function AppLayout({ children }: Props) {
   return (
-    <html lang="en">
-      <body>
           <div className="flex flex-col h-screen">
             <main className="flex h-screen">
               {/* Sidebar */}
@@ -33,7 +29,5 @@ export default function RootLayout({ children }: Props) {
               <Footer />
             </footer>
           </div>
-      </body>
-    </html>
   )
 }

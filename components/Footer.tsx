@@ -24,6 +24,10 @@ import "../styles/range.css"
 
 export default function Footer() {
 
+  type Audio = {
+    src?: string | undefined
+  }
+
 
   const Song: string = myAudio
   const [solidheartIcon, setSolidHearIcon] = useState<boolean>(true)
@@ -35,30 +39,30 @@ export default function Footer() {
   const audioRef = useRef<HTMLAudioElement>(new Audio(Song));
 
   useEffect(() => {
-    audioRef.current.addEventListener('ended', () => {
+    audioRef?.current?.addEventListener('ended', () => {
       setIsPlaying(false);
       setCurrentTime(0);
     });
 
-    audioRef.current.addEventListener('timeupdate', () => {
+    audioRef?.current.addEventListener('timeupdate', () => {
       setCurrentTime(audioRef.current.currentTime);
     });
 
-    audioRef.current.addEventListener('loadedmetadata', () => {
+    audioRef?.current.addEventListener('loadedmetadata', () => {
       setDuration(audioRef.current.duration);
     });
 
     return () => {
-      audioRef.current.removeEventListener('ended', () => {
+      audioRef?.current.removeEventListener('ended', () => {
         setIsPlaying(false);
         setCurrentTime(0);
       });
 
-      audioRef.current.removeEventListener('timeupdate', () => {
+      audioRef?.current.removeEventListener('timeupdate', () => {
         setCurrentTime(audioRef.current.currentTime);
       });
 
-      audioRef.current.removeEventListener('loadedmetadata', () => {
+      audioRef?.current.removeEventListener('loadedmetadata', () => {
         setDuration(audioRef.current.duration);
       });
     };
@@ -66,9 +70,9 @@ export default function Footer() {
 
   const handleAudioToggle = () => {
     if (isPlaying) {
-      audioRef.current.pause();
+      audioRef?.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef?.current.play();
     }
     setIsPlaying(!isPlaying);
   };
@@ -88,7 +92,7 @@ export default function Footer() {
   };
 
   const handleMute = () => {
-    const audio = audioRef.current;
+    const audio = audioRef?.current;
     if (!audio) return;
     //audio.muted === Gets or sets a flag that indicates whether the audio (either audio or the audio track on video media) is muted.
     audio.muted = !isMuted;
@@ -193,7 +197,7 @@ export default function Footer() {
           min={0}
           max={1}
           step={0.01}
-          value={isMuted ? 0 : audioRef.current?.volume}
+          value={isMuted ? 0 : audioRef?.current?.volume}
           onChange={handleVolumeChange}
         />
       </div>

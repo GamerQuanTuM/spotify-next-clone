@@ -55,9 +55,9 @@ export default function Home() {
                         <span className='font-bold text-3xl'>{greeting}</span>
                     </div>
 
-                    <div>
-                        {playlists.slice(1, 6).map(({ artist, img, title, id }) => (
-                            <FeaturedPlaylist key={id} artist={artist} img={img} title={title} />
+                    <div className='mt-12 flex flex-wrap gap-5 items-center justify-evenly relative'>
+                        {playlists.slice(0, 6).map(({ artist, img, title, id }) => (
+                            <FeaturedPlaylist key={id} artist={artist} img={img} title={title} id={id} />
                         ))}
                     </div>
                 </div>

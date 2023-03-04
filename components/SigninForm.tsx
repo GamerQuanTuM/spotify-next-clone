@@ -1,8 +1,9 @@
 "use client"
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react"
-import useSWR, { mutate } from 'swr';
-
+import { ChangeEvent, useState, MouseEvent } from "react"
+import axios from "axios"
+import { AiFillExclamationCircle as ExclamationIcon } from "react-icons/ai"
+import userStore from "../zustand/user";
 
 const months = [
     { value: '01', label: 'January' },
@@ -19,22 +20,124 @@ const months = [
     { value: '12', label: 'December' },
 ]
 
-type Error = {
-    name: string,
-    email: string,
-    password: string
-}
+type Gender = "MALE" | "FEMALE" | "OTHERS";
 
 
 
 export default function SigninForm() {
     const router = useRouter()
+    const setUser = userStore((state: any) => state.setUser);
+    const setToken = userStore((state: any) => state.setToken);
     const [selectedMonth, setSelectedMonth] = useState('');
+    const [email, setEmail] = useState<string>('')
+    const [confirmPassword, setConfirmPassword] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [name, setName] = useState<string>('')
+
+    const [emailError, setEmailError] = useState<string>('')
+    const [passwordError, setPasswordError] = useState<string>('')
+    const [nameError, setNameError] = useState<string>('')
+    const [confirmPasswordError, setConfirmPasswordError] = useState<string>('')
+    const [selectedOption, setSelectedOption] = useState<Gender>("MALE");
+
+    const url = "http://localhost:1339/api/v1/user/register"
+    let hasError = false
 
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedMonth(event.target.value);
     };
+
+    function validatePasswordLength(password: string): boolean {
+        return password.length < 6;
+    }
+
+    function validateNameLength(name: string): boolean {
+        return name.length < 4
+    }
+
+    function validation(email: string, password: string, name: string) {
+        if (!email) {
+            setEmailError('Email is Required')
+            hasError = true
+
+        }
+        if (!password.length) {
+            setPasswordError('Password is Required')
+            hasError = true
+        }
+        if (!name) {
+            setNameError('Name is Required')
+            hasError = true
+        }
+
+        if (!confirmPassword) {
+            setConfirmPasswordError("You need to confirm your password")
+        }
+
+        if (confirmPassword !== password) {
+            setConfirmPasswordError('Passwords do not match')
+            hasError = true
+        }
+
+
+        if (!email.includes('@')) {
+            setEmailError("Not a valid email")
+            hasError = true
+        }
+        if (validatePasswordLength(password)) {
+            setPasswordError("Password must be at least 6 characters long")
+            hasError = true
+        }
+
+        if (validateNameLength(name)) {
+            setNameError("Name must be at least 4 characters long")
+            hasError = true
+        }
+    }
+
+    const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSelectedOption(event.target.value as Gender);
+    };
+
+
+
+    const onSubmit = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.preventDefault()
+        validation(name, email, password)
+
+        try {
+            const emailCheck = await axios.get(`http://localhost:1339/api/v1/user/${email}`)
+            if (emailCheck) {
+                setEmailError('User Already Exists')
+            }
+            // Send the form data to the server using Axios
+            const response = await axios.post(url, {
+                email,
+                password,
+                name,
+                gender: selectedOption
+            });
+
+
+
+            if (response.status === 201 && !confirmPasswordError) {
+                const { user, token } = response.data
+                setUser(user)
+                setToken(token)
+                localStorage.setItem("token", token);
+                localStorage.setItem("user", user.email);
+                router.push('/')
+                console.log('Success')
+            } else {
+                console.log('Failure')
+            }
+        } catch (error: any) {
+            console.error(error);
+        }
+
+    }
+
 
 
     return (
@@ -44,26 +147,40 @@ export default function SigninForm() {
                 {/* Email */}
                 <div className="space-y-3">
                     <p className="font-bold">What's your email?</p>
-                    <input type="text" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" className={emailError ? 'border border-red-700 py-2 px-4 rounded-md w-[520px]' : "border border-gray-300 py-2 px-4 rounded-md w-[520px]"} />
+                    {emailError && <span className="flex space-x-2 items-center">
+                        <ExclamationIcon className="w-4 h-4 text-red-700" />
+                        <p className="text-red-700 font-medium text-base"> {emailError}</p>
+                    </span>}
                 </div>
 
-
-                <div className="space-y-3">
-                    <p className="font-bold">Confirm your email</p>
-                    <input type="text" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
-                </div>
 
                 {/* Password */}
                 <div className="space-y-3">
                     <p className="font-bold">Password</p>
-                    <input type="password" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
+                    <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className={passwordError ? 'border border-red-700 py-2 px-4 rounded-md w-[520px]' : "border border-gray-300 py-2 px-4 rounded-md w-[520px]"} />
+                    {passwordError && <span className="flex space-x-2 items-center">
+                        <ExclamationIcon className="w-4 h-4 text-red-700" />
+                        <p className="text-red-700 font-medium text-base"> {passwordError}</p>
+                    </span>}
+                </div>
+                <div className="space-y-3">
+                    <p className="font-bold">Confirm Password</p>
+                    <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" className={confirmPasswordError ? 'border border-red-700 py-2 px-4 rounded-md w-[520px]' : "border border-gray-300 py-2 px-4 rounded-md w-[520px]"} />
+                    {confirmPasswordError && <span className="flex space-x-2 items-center">
+                        <ExclamationIcon className="w-4 h-4 text-red-700" />
+                        <p className="text-red-700 font-medium text-base"> {confirmPasswordError}</p>
+                    </span>}
                 </div>
 
                 {/* Name */}
                 <div className="space-y-3">
                     <p className="font-bold">What should we call you?</p>
-                    <input type="text" className="border border-gray-300 py-2 px-4 rounded-md w-[520px]" />
-                    <span><p className="font-medium">This appears on your profile</p></span>
+                    <input value={name} onChange={(e) => setName(e.target.value)} type="text" className={nameError ? 'border border-red-700 py-2 px-4 rounded-md w-[520px]' : "border border-gray-300 py-2 px-4 rounded-md w-[520px]"} />
+                    {nameError ? <span className="flex space-x-2 items-center">
+                        <ExclamationIcon className="w-4 h-4 text-red-700" />
+                        <p className="text-red-700 font-medium text-base"> {nameError}</p>
+                    </span> : <span><p className="font-medium">This appears on your profile</p></span>}
                 </div>
 
                 <div className="space-y-3">
@@ -89,22 +206,39 @@ export default function SigninForm() {
                 <div className="space-y-3">
                     <p className="font-bold">What's your gender?</p>
                     <div className="flex space-x-16">
-                        <div className="space-x-2 flex justify-center items-center">
-                            <input type="radio" />
-                            <span><p>Male</p></span>
-                        </div>
-                        <div className="space-x-2 flex justify-center items-center">
-                            <input type="radio" />
-                            <span><p>Female</p></span>
-                        </div>
-                        <div className="space-x-2 flex justify-center items-center">
-                            <input type="radio" />
-                            <span><p>Non-binary</p></span>
-                        </div>
-                        <div className="space-x-2 flex justify-center items-center">
-                            <input type="radio" />
-                            <span><p>Others</p></span>
-                        </div>
+                        <label className="space-x-2 flex justify-center items-center">
+                            <input
+                                type="radio"
+                                value="MALE"
+                                checked={selectedOption === "MALE"}
+                                onChange={handleRadioChange}
+                            />
+                            <span>
+                                <p>Male</p>
+                            </span>
+                        </label>
+                        <label className="space-x-2 flex justify-center items-center">
+                            <input
+                                type="radio"
+                                value="FEMALE"
+                                checked={selectedOption === "FEMALE"}
+                                onChange={handleRadioChange}
+                            />
+                            <span>
+                                <p>Female</p>
+                            </span>
+                        </label>
+                        <label className="space-x-2 flex justify-center items-center">
+                            <input
+                                type="radio"
+                                value="OTHERS"
+                                checked={selectedOption === "OTHERS"}
+                                onChange={handleRadioChange}
+                            />
+                            <span>
+                                <p>Others</p>
+                            </span>
+                        </label>
                     </div>
                 </div>
 
@@ -120,12 +254,12 @@ export default function SigninForm() {
 
                 <div className="flex justify-center">
                     <button className="bg-[#1DB954] py-3 px-12 rounded-full font-bold "
-                        onClick={()=>router.push('/')}>Sign Up</button>
+                        onClick={onSubmit}>Sign Up</button>
                 </div>
 
                 <div className="flex justify-center" style={{ marginTop: '25px' }}>
                     <div className="font-bold">Have an account?{" "}
-                        <span onClick={()=>router.push('/login')} className="underline text-[#1DB954] hover:text-[#24eb6a] cursor-pointer font-bold"
+                        <span onClick={() => router.push('/login')} className="underline text-[#1DB954] hover:text-[#24eb6a] cursor-pointer font-bold"
                         >Log in</span></div>
                 </div>
             </div>

@@ -1,8 +1,10 @@
-import {create} from "zustand"
-import useFetch from "../utils/useFetch"
+import { create } from "zustand"
 
-const {} = useFetch('http://localhost:1339')
+const userStore = create((set) => ({
+    user: null,
+    token: '',
+    setUser: (): void => set({ user: localStorage.getItem('user') }),
+    setToken: (token: string): void => set({ token })
+}));
 
-const userStore = create((set)=>({
-    user:[]
-}))
+export default userStore;

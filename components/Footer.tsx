@@ -24,10 +24,6 @@ import "../styles/range.css"
 
 export default function Footer() {
 
-  type Audio = {
-    src?: string | undefined
-  }
-
 
   const Song: string = myAudio
   const [solidheartIcon, setSolidHearIcon] = useState<boolean>(true)
@@ -36,7 +32,8 @@ export default function Footer() {
   const [duration, setDuration] = useState<number>(0);
   const [volume, setVolume] = useState<number>(1);
   const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(new Audio(Song));
+  const audioRef = useRef<HTMLAudioElement>(new window.Audio(Song));
+
 
   useEffect(() => {
     audioRef?.current?.addEventListener('ended', () => {

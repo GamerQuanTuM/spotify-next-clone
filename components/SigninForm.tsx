@@ -4,6 +4,7 @@ import { ChangeEvent, useState, MouseEvent } from "react"
 import axios from "axios"
 import { AiFillExclamationCircle as ExclamationIcon } from "react-icons/ai"
 import userStore from "../zustand/user";
+import { makeRequest } from "../axios";
 
 const months = [
     { value: '01', label: 'January' },
@@ -40,7 +41,6 @@ export default function SigninForm() {
     const [confirmPasswordError, setConfirmPasswordError] = useState<string>('')
     const [selectedOption, setSelectedOption] = useState<Gender>("MALE");
 
-    const url = "http://localhost:1339/api/v1/user/register"
     let hasError = false
 
 
@@ -107,12 +107,12 @@ export default function SigninForm() {
         validation(name, email, password)
 
         try {
-            const emailCheck = await axios.get(`http://localhost:1339/api/v1/user/${email}`)
+            const emailCheck = await makeRequest.get(`/user/${email}`)
             if (emailCheck) {
                 setEmailError('User Already Exists')
             }
             // Send the form data to the server using Axios
-            const response = await axios.post(url, {
+            const response = await makeRequest.post("/user/register", {
                 email,
                 password,
                 name,

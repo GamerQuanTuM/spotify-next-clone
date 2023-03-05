@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image";
 
 interface Playlist {
-    id?: number;
+    id: number;
     title: string;
     artist: string;
     img: StaticImageData | string;

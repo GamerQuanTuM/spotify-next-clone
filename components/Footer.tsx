@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import {
-  HeartIcon as SolidHeartIcon, PauseIcon, PlayIcon, ArrowPathRoundedSquareIcon
+  HeartIcon as SolidHeartIcon,
 } from "@heroicons/react/24/solid"
 import {
   HeartIcon as OutlineHeartIcon
@@ -17,6 +17,8 @@ import {
   HiOutlineSpeakerXMark as SpeakerMuteIcon
 }
   from "react-icons/hi2"
+
+  import { BsPauseFill as PauseIcon, BsPlayFill as PlayIcon } from "react-icons/bs"
 import { TbDevices2 as ConnectIcon } from "react-icons/tb"
 import myAudio from '../public/Run_BTS.mp3';
 import "../styles/range.css"

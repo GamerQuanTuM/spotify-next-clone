@@ -26,30 +26,30 @@ export default function Header() {
     return (
         <div className='text-white fixed'>
             <div className='mt-8 mx-5 space-y-4 text-md'>
-                <Link href={'/'} className='flex items-center'>
+                <Link href={'/'} className='flex items-center cursor-pointer'>
                     <HomeIcon className='h-5 w-5 mx-2' />
                     <h3>Home</h3>
                 </Link>
-                <div className='flex items-center'>
+                <div className='flex items-center cursor-pointer'>
                     <MagnifyingGlassIcon className='h-5 w-5 mx-2' />
                     <h3>Search</h3>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center cursor-pointer'>
                     <ListBulletIcon className='h-5 w-5 mx-2' />
                     <h3>Your Library</h3>
                 </div>
             </div>
 
             <div className='mt-12 mx-5 space-y-4 text-md'>
-                <div className='flex items-center'>
+                <div className='flex items-center cursor-pointer'>
                     <PlusIcon className='h-5 w-5 mx-2' />
                     <h3>Create Playlist</h3>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center cursor-pointer'>
                     <HeartIcon className='h-5 w-5 mx-2' />
                     <h3>Liked Songs</h3>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center cursor-pointer'>
                     <BookmarkIcon className='h-5 w-5 mx-2' />
                     <h3>Your Episodes</h3>
                 </div>

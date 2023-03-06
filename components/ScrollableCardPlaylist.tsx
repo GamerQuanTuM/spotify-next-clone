@@ -24,8 +24,8 @@ export default function ScrollableCardPlaylist({ header }: Props) {
         <div>
             <div className='text-white font-bold mx-6 mb-4 text-2xl'>{header}</div>
             <div className='flex gap-5 mx-6'>
-                {randomPlaylists.map(({ id, artist, img, title }) => (
-                    <CardPlaylist key={id} id={id} artist={artist} img={img} title={title} />
+                {randomPlaylists.map(({ id, artist, image, title }) => (
+                    <CardPlaylist key={id} id={id} artist={artist} image={image} title={title} />
                 ))}
             </div>
         </div>

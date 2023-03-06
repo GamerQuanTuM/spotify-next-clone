@@ -16,7 +16,7 @@ import usePlaylistStore from '../zustand/store'
 
 
 export default function Header() {
-    const playlist = usePlaylistStore((state)=>state.playlists)
+    const playlist = usePlaylistStore((state) => state.playlists)
 
     const [clicked, setClicked] = React.useState<Playlist | null>(null)
     const clickedPlaylist = (playlist: SetStateAction<null | Playlist>): void => {
@@ -74,7 +74,7 @@ export default function Header() {
             <div>
                 {clicked && (
                     <div className='mt-3 mx-3'>
-                        <Image src={clicked?.img} alt='Image' height={10} width={200} />
+                        <Image src={clicked?.image} alt='Image' height={10} width={200} />
                     </div>
                 )}
             </div>

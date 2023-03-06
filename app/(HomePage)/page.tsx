@@ -1,5 +1,5 @@
 "use client"
-import Image from 'next/image';
+import img from 'next/image';
 import { useState, useEffect } from 'react'
 import FeaturedPlaylist from '../../components/FeaturedPlaylist';
 import Header from '../../components/Header'
@@ -41,6 +41,17 @@ export default function Home() {
 
 
     const playlists = usePlaylistStore((state) => state.playlists)
+
+
+
+    const fetchPlaylist = usePlaylistStore((state) => state.fetchPlaylist)
+
+    useEffect(() => {
+        fetchPlaylist()
+    }, [fetchPlaylist])
+
+
+
     return (
         <div className='text-white flex flex-col h-screen scrollbar'>
             <div className={`fixed top-0 w-full h-16 z-10 ${isScrolled ? 'bg-red-500' : 'bg-transparent'}`}>
@@ -51,7 +62,7 @@ export default function Home() {
                 {/* Page Content */}
                 <div className='mt-16 mx-8'>
                     <div className='mx-6'>
-                        <Image src={require('../../public/crop.jpeg')} alt="" className='w-full max-h-96 object-top object-cover' />
+                        <img src={require('../../public/crop.jpeg')} alt="" className='w-full max-h-96 object-top object-cover' />
                     </div>
 
                     <div className='mt-5'>
@@ -59,8 +70,8 @@ export default function Home() {
                     </div>
 
                     <div className='mt-12 flex flex-wrap gap-5 items-center justify-evenly relative'>
-                        {playlists.slice(0, 6).map(({ artist, img, title, id }) => (
-                            <FeaturedPlaylist key={id} artist={artist} img={img} title={title} id={id} />
+                        {playlists.slice(0, 6).map(({ artist, image, title, id }) => (
+                            <FeaturedPlaylist key={id} artist={artist} image={image} title={title} id={id} />
                         ))}
                     </div>
                 </div>

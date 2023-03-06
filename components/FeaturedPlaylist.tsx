@@ -5,7 +5,8 @@ import { Playlist } from '../typings'
 import { AiFillPauseCircle as PauseIcon, AiFillPlayCircle as PlayIcon } from "react-icons/ai"
 import Link from 'next/link'
 
-export default function FeaturedPlaylist({ img, title, id }: Playlist) {
+export default function FeaturedPlaylist({ image, title, id }: Playlist) {
+
 
     const [showIcon, setShowIcon] = useState(false)
     const [playIcon, setPlayIcon] = useState(false)
@@ -21,7 +22,7 @@ export default function FeaturedPlaylist({ img, title, id }: Playlist) {
                 }}>
                 <Link href={`/playlist/${id}`} className="flex h-full w-full items-center cursor-pointer space-x-3">
                     <div className='h-full'>
-                        <Image src={img} alt="" className='w-24 h-full rounded-l-lg' />
+                        <img src={image} alt="" className='w-24 h-full rounded-l-lg'/>
                     </div>
                     <div className='flex items-center flex-1'>
                         <p className='font-bold'>{title}</p>

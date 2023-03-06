@@ -4,6 +4,9 @@ module.exports = {
   experimental: {
     appDir: true,
   },
+  images:{
+    domains:['cdn.sanity.io','res.cloudinary.com']
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(mp3)$/,

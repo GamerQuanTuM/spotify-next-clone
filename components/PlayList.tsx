@@ -6,7 +6,7 @@ type Props = {
     content: Playlist
 }
 
-export default function PlayList({ content: { id, title, img, artist } }: Props) {
+export default function PlayList({ content: { id, title, image, artist } }: Props) {
     return (
         <div className=''>
             <p>{title.slice(0, 20)}{title.length > 20 && '...'}</p>

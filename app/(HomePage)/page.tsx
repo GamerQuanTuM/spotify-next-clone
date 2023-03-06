@@ -1,5 +1,5 @@
 "use client"
-import img from 'next/image';
+import Image from 'next/image';
 import { useState, useEffect } from 'react'
 import FeaturedPlaylist from '../../components/FeaturedPlaylist';
 import Header from '../../components/Header'
@@ -62,7 +62,7 @@ export default function Home() {
                 {/* Page Content */}
                 <div className='mt-16 mx-8'>
                     <div className='mx-6'>
-                        <img src={require('../../public/crop.jpeg')} alt="" className='w-full max-h-96 object-top object-cover' />
+                        <Image src={require('../../public/crop.jpeg')} alt="" className='w-full max-h-96 object-top object-cover' />
                     </div>
 
                     <div className='mt-5'>

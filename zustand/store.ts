@@ -1,14 +1,12 @@
 import { create } from 'zustand';
 import { makeRequest } from '../axios';
 import { Playlist, PlaylistStore } from '../typings';
-import { carouselItem as playlists } from '../utils/data'
 
 const usePlaylistStore = create<PlaylistStore>((set) => ({
     playlists: [],
-    setPlaylists: (playlists: Playlist[]) => set({ playlists }),
     fetchPlaylist: async () => {
         const response = await makeRequest.get<Playlist[]>('/playlist')
-        set({ playlists: response.data, ...playlists })
+        set({ playlists: response.data })
     },
     addPlaylist: (playlist: Playlist) =>
         set((state) => ({ playlists: [...state.playlists, playlist] })),

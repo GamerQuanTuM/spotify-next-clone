@@ -74,7 +74,7 @@ export default function Header() {
             <div>
                 {clicked && (
                     <div className='mt-3 mx-3'>
-                        <Image src={clicked?.image} alt='Image' height={10} width={200} />
+                        <img src={clicked?.image} alt='Image' height={10} width={200} />
                     </div>
                 )}
             </div>

@@ -1,5 +1,4 @@
 "use client"
-import Image from 'next/image'
 import React, { useState } from 'react'
 import { Playlist } from '../typings'
 import { AiFillPauseCircle as PauseIcon, AiFillPlayCircle as PlayIcon } from "react-icons/ai"

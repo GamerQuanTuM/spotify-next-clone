@@ -4,6 +4,7 @@
 
 @layer components {
   .scrollbar::-webkit-scrollbar {
-    @apply hidden
+    @apply hidden;
   }
 }
+

@@ -15,8 +15,10 @@ interface Playlist {
 
 interface PlaylistStore {
     fetchPlaylist(): Promise<void>;
+    fetchPlaylistById(id: string): Promise<void>;
     playlists: Playlist[];
-    setPlaylists: (playlists: Playlist[]) => void;
+    singlePlaylist: Playlist | null,
+    // setPlaylists: (playlists: Playlist[]) => void;
     // addPlaylist: (playlist: Playlist) => void;
     // removePlaylist: (id: number) => void;
 }
